@@ -92,14 +92,17 @@ public class NumberConverter {
         unit.add("+");
         unit.add("/");
     for(int i=0;i<unit.size();i++){
-        if(i>=10){
-            if(Integer.parseInt(num)>=base){
-                num=num;
+        if(Integer.parseInt(num)<10){
+            return num;
+        }else {
+            if (i >= 10) {
+                if (Integer.parseInt(num) >= base) {
+                    num = num;
+                }
+                num = unit.get(Integer.parseInt(num) + 1);
+                return num;
             }
-           num=unit.get(Integer.parseInt(num)+1);
-           return num;
-    }
-    }
+        }}
     return num;
     }
 
@@ -124,66 +127,45 @@ public class NumberConverter {
     public String convertToBinary() {
         String binary = "";
         int remainder;
+        StringBuilder binaryOrient= new StringBuilder();
         if (base == 10) {
             int whole = number;
             for (int i = whole; i > 0; i = i / 2) {
                 remainder = i % 2;
                 if (remainder == 0) {
-                    binary += "0";
+                    binary = "0";
                 } else {
-                    binary += "1";
-
+                    binary = "1";
                 }
+                binaryOrient.insert(0,binary);
             }
-            String[] reverse = new String[binary.length()];
-            for (int i = 0; i <= binary.length() - 1; i++) {
-                reverse[binary.length() - 1 - i] = binary.substring(i, i + 1);
-            }
-            String listToNum = "";
-            for (int i = 0; i <= binary.length() - 1; i++) {
-                listToNum += Integer.parseInt(reverse[i]);
-            }
-            return listToNum;
+            return binaryOrient.toString();
         } else if(base==16){
             int whole = number;
             for (int i = whole; i > 0; i = i / 2) {
                 remainder = i % 2;
                 if (remainder == 0) {
-                    binary += "0";
+                    binary = "0";
                 } else {
-                    binary += "1";
+                    binary = "1";
 
                 }
+                binaryOrient.insert(0,binary);
             }
-            String[] reverse = new String[binary.length()];
-            for (int i = 0; i <= binary.length() - 1; i++) {
-                reverse[binary.length() - 1 - i] = binary.substring(i, i + 1);
-            }
-            String reverses = "";
-            for (int i = 0; i <= binary.length() - 1; i++) {
-                reverses += Integer.parseInt(reverse[i]);
-            }
-            return reverses;
+            return binaryOrient.toString();
         }else{
             int whole = convertToDecimal();
             for (int i = whole; i > 0; i = i / 2) {
                 remainder = i % 2;
                 if (remainder == 0) {
-                    binary += "0";
+                    binary = "0";
                 } else {
-                    binary += "1";
+                    binary = "1";
 
                 }
+                binaryOrient.insert(0,binary);
             }
-            String[] reverse = new String[binary.length()];
-            for (int i = 0; i <= binary.length() - 1; i++) {
-                reverse[binary.length() - 1 - i] = binary.substring(i, i + 1);
-            }
-            String reverses = "";
-            for (int i = 0; i <= binary.length() - 1; i++) {
-                reverses += Integer.parseInt(reverse[i]);
-            }
-            return reverses;
+            return binaryOrient.toString();
         }
     }
     public String convertToOctal() {
@@ -246,10 +228,9 @@ public class NumberConverter {
             Hexa = num % 16 + Hexa;
             return Hexa;
         } else {
-
             Hexa = num % 16 + Hexa;
             compare = num % 16 + compare;
-            if(Integer.parseInt(compare)<=10) {
+            if(Integer.parseInt(compare)<10) {
                 return compare;
             }
             Hexa = convertHexAlphabet(Hexa);
@@ -259,9 +240,11 @@ public class NumberConverter {
     public String toAnyBase(int targetBase){
         String val=Integer.toString(number);
         int temp=Integer.parseInt(val);
+        String compare="";
         StringBuilder str= new StringBuilder();
         while(temp!=0){
-            int tempValue=temp%targetBase;
+            String tempValue=Integer.toString(temp%targetBase);
+            tempValue=convertHexAlphabet(tempValue);
             str.insert(0,tempValue);
             temp/=targetBase;
         }
@@ -273,7 +256,7 @@ public class NumberConverter {
         } else if (base == 2) {
             return "Octal Number: " + convertToOctal() + "\n" + "Decimal Number: " + convertToDecimal()+"\n"+"Hexadecimal number: "+convertToHexaDecimal()+"Desired base: "+otherBase+" "+toAnyBase(otherBase);
         } else if (base == 10) {
-            return "Octal Number: " + convertToOctal() + "\n" + "Binary Number: " + convertToBinary()+"\n"+ "Hexadecimal number: "+convertToHexaDecimal()+"\n"+"Desired base: "+otherBase+" "+toAnyBase(otherBase);
+            return "Octal Number: " + convertToOctal() + "\n" + "Binary Number: " + convertToBinary()+"\n"+ "Hexadecimal number: "+convertToHexaDecimal()+"\n"+"Base "+otherBase+" Number: "+toAnyBase(otherBase);
         } else if (base==16) {
             return "Bullshit cause I didn't do it yet"+"\n"+"Binary Number: "+convertToBinary();
         } else {
