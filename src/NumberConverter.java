@@ -171,6 +171,7 @@ public class NumberConverter {
             Hex=convertHexAlphabet(Hex);
             str.insert(0,Hex);
             num/=16;
+
         }
         return str.toString();
     }
