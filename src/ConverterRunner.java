@@ -5,6 +5,7 @@ public class ConverterRunner {
     public static void main(String[] args) {
         System.out.println("Welcome to the Number Converter!");
         System.out.println("--------------------------------");
+
         System.out.print("Enter the base of your number (2, 8 or 10): ");
 
         Scanner s = new Scanner(System.in);
